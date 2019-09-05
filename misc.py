@@ -27,6 +27,31 @@ def parse_cmid(cmid):
     # serial_num = id_arr[3]
 
 
+def list_array(a_str):
+    # seg_list = jieba.cut(a_str)
+    # seg_list = [word for word in seg_list]
+    # print seg_list
+    # seg_list = ["高", "性", "并", "可"]
+    # seg_list = ["性高潮", "并", "可"]
+    seg_list = ["性高潮病", "可", "用"]
+    """
+高性(高兴)
+高并(糕饼)
+高可(高科技)
+性高(兴高采烈,性高潮)
+性并(性病)
+可并性高潮
+性高潮并(病)
+可性高潮并(病)
+    """
+    str_len = len(seg_list)
+    for i in range(str_len):
+        for j in range(str_len):
+            if i != j:
+                print seg_list[i] + seg_list[j]
+
+
 if __name__ == '__main__':
     # t8t_sys_proxy-c0a8297e-435327-189893
-    parse_cmid('t8t_sys_proxy-c0a8297e-435391-192905')
+    # parse_cmid('t8t_sys_proxy-c0a8297e-435391-192905')
+    list_array('高性并可用')

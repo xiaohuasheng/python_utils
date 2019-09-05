@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
 
-import jieba
 import pinyin
 
 
@@ -64,7 +63,21 @@ if __name__ == "__main__":
     虚箭是依赖
     实箭关联出
     """
-    seg_list = jieba.cut("性能并发可用")
+    """
+    高性能并发可用(高性并可用)
+    估算系统规模和负载
+    确定预期技术指标数据
+    分析风险因素点
+    规划系统结构和数据表
+    架构模式框架
+    分治瓶颈雪崩墨菲底线思维
+    
+    缓存异步算法空间换时间冗余降级分布式自动化
+    作用特性
+    常思常新
+    经常预演
+    """
+
     word_info_list = []
     for word in seg_list:
         word_pinyin = to_pinyin(word)
