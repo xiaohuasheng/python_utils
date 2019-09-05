@@ -33,7 +33,7 @@ def list_array(a_str):
     # print seg_list
     # seg_list = ["高", "性", "并", "可"]
     # seg_list = ["性高潮", "并", "可"]
-    seg_list = ["性高潮病", "可", "用"]
+    # seg_list = ["性高潮病", "可", "用"]
     """
 高性(高兴)
 高并(糕饼)
@@ -44,6 +44,18 @@ def list_array(a_str):
 性高潮并(病)
 可性高潮并(病)
     """
+
+    """
+    分治瓶颈雪崩墨菲底线思维
+分墨(粉末)
+分底(粉底)
+瓶分(评分)
+瓶底(平底)
+雪瓶(血瓶)
+墨底(摸底)
+血瓶瓶底有粉末
+    """
+    seg_list = ["分", "瓶", '雪', '墨', '底']
     str_len = len(seg_list)
     for i in range(str_len):
         for j in range(str_len):
