@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
+import re
+
 import jieba
 import pinyin
-import json
-import re
 
 
 def to_pinyin(var_str):
@@ -53,7 +53,18 @@ def get_yun(word_info_list):
 
 
 if __name__ == "__main__":
-    seg_list = jieba.cut("识别核心和重点分析资源瓶颈巧用冗余简化问题多用空间换时间提前准备数据异步和并行")  # 默认是精确模式
+    # seg_list = jieba.cut("识别核心和重点分析资源瓶颈巧用冗余简化问题多用空间换时间提前准备数据异步和并行")  # 默认是精确模式
+    # seg_list = jieba.cut("代码全局初始化静态数据未堆栈")  # 默认是精确模式
+    # 代码未全局，堆栈静数据
+    # seg_list = jieba.cut("虚箭依,实箭关,虚三接,实三父,空菱聚,实菱组")
+    # seg_list = ["虚箭依", "实箭关", "虚三接", "实三父", "空菱聚", "实菱组"]
+    """
+    虚实三接父
+    空实菱聚组
+    虚箭是依赖
+    实箭关联出
+    """
+    seg_list = jieba.cut("性能并发可用")
     word_info_list = []
     for word in seg_list:
         word_pinyin = to_pinyin(word)
