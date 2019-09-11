@@ -14,12 +14,15 @@ def get_timestamp(date_str=None):
 
 
 def execute_command(cmd):
+    print cmd
     import os
     a_pipe = os.popen(cmd, 'r')
     a_text = a_pipe.read()
     a_sts = a_pipe.close()
     if a_sts is None: a_sts = 0
     if a_text[-1:] == '\n': a_text = a_text[:-1]
+    print a_sts
+    print a_text
     return a_sts, a_text
 
 
@@ -134,10 +137,11 @@ class UtilsProject(Project):
 
 
 def main():
-    tag_desc = raw_input("please input tag description:\n")
-    if not tag_desc:
-        print "description can not be null"
-        exit(0)
+    # tag_desc = raw_input("please input tag description:\n")
+    # if not tag_desc:
+    #     print "description can not be null"
+    #     exit(0)
+    tag_desc = "test"
     boss_project = UtilsProject()
     boss_project.push_to_master(tag_desc)
 
