@@ -3,26 +3,25 @@ import os
 import time
 
 
-def get_timestamp(date_str=None):
-    # dt = "2016-05-05 20:28:54"
-    if date_str:
-        time_array = time.strptime(date_str, "%Y-%m-%d %H:%M:%S")
-        timestamp = time.mktime(time_array)
-    else:
-        timestamp = time.time()
-    return timestamp
+def get_format_datetime(date_format='%Y%m%d%H%M%S'):
+    return time.strftime(date_format, time.localtime(time.time()))
 
 
 def execute_command(cmd):
-    print cmd
+    # print cmd
     import os
     a_pipe = os.popen(cmd, 'r')
     a_text = a_pipe.read()
     a_sts = a_pipe.close()
     if a_sts is None: a_sts = 0
     if a_text[-1:] == '\n': a_text = a_text[:-1]
-    print a_sts
-    print a_text
+    # print a_sts
+    # print a_text
+    if a_sts:
+        print cmd
+        print a_sts
+        print a_text
+        raise Exception(a_text)
     return a_sts, a_text
 
 
@@ -36,7 +35,7 @@ def checkout(branch):
 
 
 def get_version(version_str):
-    version_list = version_str.spilt(".")
+    version_list = version_str.split(".")
     version_num = "".join(version_list)
     version_num = str(int(version_num) + 1)
     num_list = list(version_num)
@@ -47,6 +46,10 @@ def get_last_tag():
     execute_command("git fetch --tag")
     # 有时需要先grep
     return execute_command("git tag | tail -1")
+
+
+def push_origin(branch):
+    execute_command("git push origin %s" % branch)
 
 
 class Project(object):
@@ -61,17 +64,17 @@ class Project(object):
         checkout(branch)
         self.merge_code(now_branch, branch)
         self.add_tag(description=desc)
-        self.push_origin(branch)
+        push_origin(branch)
 
     def this_branch(self):
         os.chdir(self.project_dir)
-        branch = execute_command("git symbolic-ref --short -q HEAD")
+        status, branch = execute_command("git symbolic-ref --short -q HEAD")
         return branch
 
     def is_clean(self):
         os.chdir(self.project_dir)
         status, output = execute_command("git status")
-        if output.find("working tree clean") > 0:
+        if output.find("working tree clean") >= 0 or output.find("nothing to commit") >= 0:
             return True
         return False
 
@@ -81,14 +84,9 @@ class Project(object):
         execute_command("git merge %s" % now_branch)
 
     def add_tag(self, description):
-        last_tag = get_last_tag()
+        status, last_tag = get_last_tag()
         new_tag = self.generate_new_tag(last_tag)
-        execute_command("git add tag -a %s -m %s" % (new_tag, description))
-
-    def push_origin(self, branch):
-        # TODO
-        exit(0)
-        execute_command("git push origin %s" % branch)
+        execute_command("git tag -a %s -m %s" % (new_tag, description))
 
     def check(self):
         if not self.is_clean():
@@ -107,7 +105,7 @@ class Project(object):
         # utils-1.2.1-201908050927-watson
         tag_list = last_tag.split("-")
         tag_list[1] = get_version(tag_list[1])
-        tag_list[2] = get_timestamp()
+        tag_list[2] = get_format_datetime()
         tag_list[3] = author
 
         new_tag = "-".join(tag_list)
@@ -133,18 +131,21 @@ class BossProject(Project):
 class UtilsProject(Project):
     def __init__(self):
         super(UtilsProject, self).__init__()
-        self.project_dir = 'E:\php_workspace\utils'
+        # self.project_dir = 'E:\php_workspace\utils'
+        self.project_dir = '/var/boss/git@repo.we.com/publish/demo-ps-qd'
 
 
-def main():
-    # tag_desc = raw_input("please input tag description:\n")
-    # if not tag_desc:
-    #     print "description can not be null"
-    #     exit(0)
-    tag_desc = "test"
-    boss_project = UtilsProject()
-    boss_project.push_to_master(tag_desc)
+class PhpUtilsProject(Project):
+    def __init__(self):
+        super(PhpUtilsProject, self).__init__()
+        # self.project_dir = 'E:\php_workspace\utils'
+        self.project_dir = '/root/e_drive/php_workspace/utils'
 
 
 if __name__ == '__main__':
-    main()
+    tag_desc = "test"
+    boss_project = UtilsProject()
+    boss_project.push_to_master(tag_desc)
+    print "********************************"
+    print "***********success**************"
+    print "********************************"
