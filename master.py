@@ -68,8 +68,9 @@ class Project(object):
         return False
 
     def merge_code(self, now_branch, branch):
-        # TODO 能执行这两步吗
         self.checkout(branch)
+        self.pull_origin(branch)
+        self.check()
         execute_command("git merge %s" % now_branch)
 
     def add_tag(self, description):
@@ -144,4 +145,3 @@ if __name__ == '__main__':
     print "********************************"
     print "***********success**************"
     print "********************************"
-
