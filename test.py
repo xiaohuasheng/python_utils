@@ -3,7 +3,7 @@ import os
 import time
 
 
-def get_format_datetime(date_format='%Y%m%d%H%M%S'):
+def get_format_datetime(date_format='%Y%m%d%H%M'):
     return time.strftime(date_format, time.localtime(time.time()))
 
 
@@ -25,46 +25,34 @@ def execute_command(cmd):
     return a_sts, a_text
 
 
-def pull_origin(branch):
-    execute_command("git pull origin %s" % branch)
-
-
-def checkout(branch):
-    execute_command("git checkout %s" % branch)
-    execute_command("git pull origin %s" % branch)
-
-
-def get_version(version_str):
-    version_list = version_str.split(".")
-    version_num = "".join(version_list)
-    version_num = str(int(version_num) + 1)
-    num_list = list(version_num)
-    return ".".join(num_list)
-
-
-def get_last_tag():
-    execute_command("git fetch --tag")
-    # 有时需要先grep
-    return execute_command("git tag | tail -1")
-
-
-def push_origin(branch):
-    execute_command("git push origin %s" % branch)
-
-
 class Project(object):
-    def __init__(self):
-        self.project_dir = '/e/python_workspace/boss-cmdb'
+    def __init__(self, proj_path, test_branch):
+        if not proj_path:
+            print "project directory can not be null"
+            exit(0)
+        self.project_dir = proj_path
+        self.test_branch = test_branch
 
-    def push_to_master(self, desc):
-        branch = 'master'
-        now_branch = self.this_branch()
-        self.check()
-        pull_origin(branch)
-        checkout(branch)
-        self.merge_code(now_branch, branch)
-        self.add_tag(description=desc)
-        push_origin(branch)
+    def pull_origin(self, branch):
+        execute_command("git pull origin %s" % branch)
+
+    def checkout(self, branch):
+        execute_command("git checkout %s" % branch)
+
+    def get_version(self, version_str):
+        version_list = version_str.split(".")
+        version_num = "".join(version_list)
+        version_num = str(int(version_num) + 1)
+        num_list = list(version_num)
+        return ".".join(num_list)
+
+    def get_last_tag(self):
+        execute_command("git fetch --tag")
+        # 有时需要先grep
+        return execute_command("git tag | tail -1")
+
+    def push_origin(self, branch):
+        execute_command("git push origin %s" % branch)
 
     def this_branch(self):
         os.chdir(self.project_dir)
@@ -74,17 +62,19 @@ class Project(object):
     def is_clean(self):
         os.chdir(self.project_dir)
         status, output = execute_command("git status")
-        if output.find("working tree clean") >= 0 or output.find("nothing to commit") >= 0:
+        if output.find("nothing added to commit") >= 0 or output.find("working tree clean") >= 0 or output.find(
+                "nothing to commit") >= 0:
             return True
         return False
 
     def merge_code(self, now_branch, branch):
-        # TODO 能执行这两步吗
-        checkout(branch)
+        self.checkout(branch)
+        self.pull_origin(branch)
+        self.check()
         execute_command("git merge %s" % now_branch)
 
     def add_tag(self, description):
-        status, last_tag = get_last_tag()
+        status, last_tag = self.get_last_tag()
         new_tag = self.generate_new_tag(last_tag)
         execute_command("git tag -a %s -m %s" % (new_tag, description))
 
@@ -104,7 +94,7 @@ class Project(object):
         # shejiben-7.3.4.4-201908281659-watson
         # utils-1.2.1-201908050927-watson
         tag_list = last_tag.split("-")
-        tag_list[1] = get_version(tag_list[1])
+        tag_list[1] = self.get_version(tag_list[1])
         tag_list[2] = get_format_datetime()
         tag_list[3] = author
 
@@ -116,36 +106,23 @@ class Project(object):
         status, author = execute_command("git config --global user.name")
         return author
 
-
-class BossProject(Project):
-    def __init__(self):
-        super(BossProject, self).__init__()
-        self.project_dir = '/e/python_workspace/boss-cmdb'
-
-    def generate_new_tag(self, last_tag):
-        pass
-        # TODO
-        return ""
-
-
-class UtilsProject(Project):
-    def __init__(self):
-        super(UtilsProject, self).__init__()
-        # self.project_dir = 'E:\php_workspace\utils'
-        self.project_dir = '/var/boss/git@repo.we.com/publish/demo-ps-qd'
-
-
-class PhpUtilsProject(Project):
-    def __init__(self):
-        super(PhpUtilsProject, self).__init__()
-        # self.project_dir = 'E:\php_workspace\utils'
-        self.project_dir = '/root/e_drive/php_workspace/utils'
+    def push_to_test(self):
+        now_branch = self.this_branch()
+        self.check()
+        self.checkout(self.test_branch)
+        self.merge_code(now_branch, self.test_branch)
+        self.check()
+        print "merge finish..."
+        self.push_origin(self.test_branch)
+        print "push finish..."
+        self.checkout(now_branch)
 
 
 if __name__ == '__main__':
-    tag_desc = "test"
-    boss_project = UtilsProject()
-    boss_project.push_to_master(tag_desc)
+    test_branch = "dev"
+    boss_obj = Project("E:\php_workspace\shejiben", test_branch)
+    boss_obj.push_to_test()
     print "********************************"
-    print "***********success**************"
+    tips = "*success merge and push to %s*" % test_branch
+    print tips
     print "********************************"
