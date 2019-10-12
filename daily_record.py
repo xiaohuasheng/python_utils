@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import sys
 import time
 
 
@@ -15,11 +16,17 @@ def is_weekend():
 
 
 def main():
-    if is_weekend():
+    argv = sys.argv
+    force_gen = False
+    try:
+        force_gen = argv[1]
+    except IndexError as e:
+        pass
+    if not force_gen and is_weekend():
         print "今天是周末，不生成"
         exit(0)
     filename = get_format_datetime() + ".md"
-    file_path = os.path.join('/root/dayReflection', filename)
+    file_path = os.path.join('/root/e_drive/dayReflection', filename)
     open(file_path, 'a').close()
 
 
