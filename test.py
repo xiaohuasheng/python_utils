@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
+import hashlib
 import json
 import os
 import time
+from datetime import datetime
+from datetime import timedelta
 
 
 def test_input():
@@ -298,9 +301,201 @@ def service_map():
     print a_map
 
 
+def database_map():
+    data = {
+        "idc_sjb": {
+            "host": "10.10.10.129",
+            "port": 3306,
+            "user": "schema_r",
+            "password": "ppmm5DxgL7Q8lwWy",
+            "project": [
+                "shejiben"
+            ]
+        },
+        "idc_oa": {
+            "host": "10.10.10.155",
+            "port": 3306,
+            "user": "schema_r",
+            "password": "ppmm5DxgL7Q8lwWy",
+            "project": [
+                "to8to_oa"
+            ]
+        },
+        "idc_3D": {
+            "host": "10.10.11.64",
+            "port": 3306,
+            "user": "schema_r",
+            "password": "ppmm5DxgL7Q8lwWy",
+            "project": [
+                "render"
+            ]
+        },
+        "idc_to8to": {
+            "host": "10.10.10.65",
+            "port": 3306,
+            "user": "schema_r",
+            "password": "ppmm5DxgL7Q8lwWy",
+            "project": [
+                "t8t_ad_cms",
+                "t8t_fa_cms",
+                "t8t_mid_proj",
+                "t8t_mid_wom",
+                "to8to",
+                "to8to_yuyue_db",
+                "user_db"
+            ]
+        },
+        "idc_it4": {
+            "host": "10.10.10.156",
+            "port": 3306,
+            "user": "schema_r",
+            "password": "ppmm5DxgL7Q8lwWy",
+            "project": [
+                "dsp_prs_ass",
+                "dsp_prs_ctm",
+                "dsp_prs_fdm",
+                "dsp_prs_hmm",
+                "dsp_prs_mdm",
+                "dsp_prs_pqm",
+                "dsp_ps_gdm",
+                "dsp_ps_pmd",
+                "dsp_ps_psm",
+                "dsp_ps_qcm",
+                "filemanage",
+                "filter",
+                "msg_center",
+                "t8t_ads_dsp",
+                "t8t_app_pam",
+                "t8t_crm_qms",
+                "t8t_crm_qsm",
+                "t8t_dcp_crm",
+                "t8t_dcp_dcm",
+                "t8t_dcp_dcs",
+                "t8t_dcp_dis",
+                "t8t_dcp_ecs",
+                "t8t_dcp_opm",
+                "t8t_dcp_scs",
+                "t8t_dcp_vgs",
+                "t8t_fed_gw",
+                "t8t_fi_acc",
+                "t8t_fi_acp",
+                "t8t_fi_acr",
+                "t8t_fi_air",
+                "t8t_fi_crs",
+                "t8t_fi_fcm",
+                "t8t_fi_fcs",
+                "t8t_fi_fds",
+                "t8t_fi_fip",
+                "t8t_fi_fmd",
+                "t8t_fi_frt",
+                "t8t_fi_fvg",
+                "t8t_fi_ina",
+                "t8t_fi_pbd",
+                "t8t_fi_pca",
+                "t8t_fi_pvm",
+                "t8t_fi_qad",
+                "t8t_fi_reg",
+                "t8t_fi_rvm",
+                "t8t_fi_tim",
+                "t8t_fi_tpc",
+                "t8t_om_od",
+                "t8t_prs_ctm",
+                "t8t_prs_fdm",
+                "t8t_prs_hmm",
+                "t8t_prs_mdm",
+                "t8t_prs_mpm",
+                "t8t_prs_pm",
+                "t8t_prs_pqm",
+                "t8t_ps_csm",
+                "t8t_ps_odm",
+                "t8t_ps_pcm",
+                "t8t_ps_pim",
+                "t8t_ps_pmd",
+                "t8t_ps_psm",
+                "t8t_ps_scg",
+                "t8t_ps_set",
+                "t8t_ps_smg",
+                "t8t_ps_sub",
+                "t8t_scm_cfg",
+                "t8t_scm_exh",
+                "t8t_scm_fhc",
+                "t8t_scm_ldm",
+                "t8t_scm_mdm",
+                "t8t_scm_mrp",
+                "t8t_scm_oos",
+                "t8t_scm_pda",
+                "t8t_scm_pom",
+                "t8t_scm_rem",
+                "t8t_scm_sup",
+                "t8t_sys_aga",
+                "t8t_sys_eda",
+                "t8t_sys_esm",
+                "t8t_sys_est",
+                "t8t_sys_exp",
+                "t8t_sys_faq",
+                "t8t_sys_gmp",
+                "t8t_sys_oss",
+                "t8t_sys_psa",
+                "t8t_sys_xxl",
+                "t8t_tbt_cls",
+                "t8t_tbt_csp",
+                "t8t_tbt_dir",
+                "t8t_tbt_dmp",
+                "t8t_tbt_fcp",
+                "t8t_tbt_vms",
+                "t8t_tbt_wts",
+                "to8to_company",
+                "to8to_intpack_db",
+                "to8to_it",
+                "to8to_sale_db",
+                "to8to_supply_db",
+                "workflow"
+            ]
+        },
+        "idc_im": {
+            "host": "10.10.10.66",
+            "port": 3306,
+            "user": "schema_r",
+            "password": "ppmm5DxgL7Q8lwWy",
+            "project": [
+                "t8t_im",
+                "t8t_new_im"
+            ]
+        }
+    }
+    a_map = {}
+    for item in data:
+        project = data[item]['project']
+        for pr in project:
+            name = pr.replace("_", "-")
+            a_map[name] = {
+                "group": item,
+                "name": pr,
+            }
+
+    print a_map
+
+
+def md5_sum():
+    password = "1234qwer"
+    # 62c8ad0a15d9d1ca38d5dee762a16e01
+    m1 = hashlib.md5()
+    m1.update(password.encode(encoding='utf-8'))
+    aa = str(m1.hexdigest())
+    print(aa)
+
+
+def date_decrease():
+    nowtime = datetime.now()
+    d = timedelta(days=-365)
+    print nowtime + d
+
 
 if __name__ == '__main__':
-    service_map()
+    date_decrease()
+    # md5_sum()
+    # database_map()
+    # service_map()
     # split_java_cmd()
     # a_map = {'sc': ['98', '106', '105', '101'], 'task': ['114', '125'], 'server': ['130', '', '129']}
     # print version_sort(a_map)
