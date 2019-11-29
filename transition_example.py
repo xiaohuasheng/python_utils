@@ -4,10 +4,19 @@ from transitions import Machine
 
 # 定义一个自己的类
 class Matter(object):
-    pass
+    def __init__(self):
+        self.attitude = None
+        self.from_uat = None
 
+    def from_uat_check(self):
+        return self.from_uat
 
-model = Matter()
+    def is_agree(self):
+        return self.attitude == 1
+
+    def is_reject(self):
+        return self.attitude == 2
+
 
 # 状态定义
 states = ['start', 'leader_approve', 'deploy', 'end']
@@ -15,27 +24,23 @@ states = ['start', 'leader_approve', 'deploy', 'end']
 # 定义状态转移
 # The trigger argument defines the name of the new triggering method
 transitions = [
-    {'trigger': 'agree', 'source': 'start', 'dest': 'leader_approve'},
-    {'trigger': 'agree', 'source': 'leader_approve', 'dest': 'deploy'},
-    {'trigger': 'agree', 'source': 'deploy', 'dest': 'end'},
-    {'trigger': 'agree', 'source': 'end', 'dest': 'end'},
-    {'trigger': 'reject', 'source': 'start', 'dest': 'leader_approve'},
-    {'trigger': 'reject', 'source': 'leader_approve', 'dest': 'end'},
-    {'trigger': 'reject', 'source': 'deploy', 'dest': 'end'},
-    {'trigger': 'reject', 'source': 'end', 'dest': 'end'},
+    {'trigger': 'approve', 'source': 'start', 'dest': 'leader_approve'},
+    {'trigger': 'approve', 'source': 'leader_approve', 'dest': 'deploy',
+     'conditions': ['is_agree', 'from_uat_check']},
+    {'trigger': 'approve', 'source': 'leader_approve', 'dest': 'end',
+     'conditions': ['is_agree'], 'unless': ['from_uat_check']},
 ]
 
 if __name__ == "__main__":
     # 初始化
+    model = Matter()
     machine = Machine(model=model, states=states, transitions=transitions, initial='leader_approve')
 
     # Test
     print model.state  # solid
-    model.agree()
-    print model.state
-    model.reject()
-    print model.state
-    model.agree()
+    model.attitude = 1
+    model.from_uat = False
+    model.approve()
     print model.state
 
     """
