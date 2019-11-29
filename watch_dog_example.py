@@ -71,8 +71,8 @@ def convert_to_base64(filepath):
     with open(filepath, "rb") as f:
         base64_data = base64.b64encode(f.read())
     filename = get_filename(filepath)
-    html_data = '![%s][%s]\n[%s]:data:image/png;base64,%s' % (filename, filename, filename, base64_data)
-    # html_data = '<img src="data:image/jpg;base64,%s"/>' % base64_data
+    # html_data = '![%s][%s]\n[%s]:data:image/png;base64,%s' % (filename, filename, filename, base64_data)
+    html_data = '<img src="data:image/jpg;base64,%s"/>' % base64_data
     print html_data
     write_to_clipboard(html_data)
 

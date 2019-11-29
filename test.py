@@ -491,8 +491,38 @@ def date_decrease():
     print nowtime + d
 
 
+def a_star(a, b):
+    print a, b
+    # 3 4
+
+
+def two_star(name, age):
+    print name, age
+    # hs 15
+
+
+def p01(n):
+    if n == 1:
+        return ["0", "1"]
+    a_list = p01(n - 1)
+    new_list = []
+    for num in ["0", "1"]:
+        for a_word in a_list:
+            new_list.append(num + a_word)
+    return new_list
+
+
 if __name__ == '__main__':
-    date_decrease()
+    print p01(9)
+    pass
+    # list_param = [3, 4]
+    # map_param = {
+    #     "name": "hs",
+    #     "age": 15
+    # }
+    # a_star(*list_param)
+    # two_star(**map_param)
+    # date_decrease()
     # md5_sum()
     # database_map()
     # service_map()
