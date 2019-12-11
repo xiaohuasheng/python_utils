@@ -27,7 +27,7 @@ states = ['solid', 'liquid', 'gas', 'plasma']
 
 transitions = [
     {'trigger': 'melt', 'source': 'solid', 'dest': 'liquid', 'prepare': ['heat_up', 'count_attempts'],
-     'conditions': ['is_really_hot', 'is_really_hot2'], 'after': ['stats', 'stats2']},
+     'conditions': ['is_really_hot'], 'after': ['stats']},
 ]
 
 if __name__ == "__main__":
