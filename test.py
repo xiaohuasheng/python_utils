@@ -521,8 +521,24 @@ def json_change():
     print json.dumps(a_map)
 
 
+def to_const():
+    a_str = '''
+        treasurer_approve
+    reapply
+    dba_approve
+
+    '''
+    a_list = a_str.split("\n")
+    for item in a_list:
+        item = item.strip()
+        if not item:
+            continue
+        print '%s = "%s"' % (item.upper(), item)
+
+
 if __name__ == '__main__':
-    json_change()
+    to_const()
+    # json_change()
     # print p01(9)
     # a_str = "php_publish"
     # print("".join(map(lambda x: x.capitalize(), a_str.split("_"))))
