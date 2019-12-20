@@ -8,10 +8,13 @@ if __name__ == '__main__':
     x = tf.placeholder("float", [None, 784], name='x')
     W = tf.Variable(tf.zeros([784, 10]), name='W')
     b = tf.Variable(tf.zeros([10]), name='b')
+
+    # y = kx + b
     y = tf.nn.softmax(tf.matmul(x, W) + b, name='y')  # y预测概率分布
 
     y_ = tf.placeholder("float", [None, 10])  # y_实际概率分布
 
+    # 混乱的程度，混乱最下，有序，
     cross_entropy = -tf.reduce_sum(y_ * tf.log(y))  # 交叉熵
     # 梯度下降算法以0.01学习率最小化交叉熵
     train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)

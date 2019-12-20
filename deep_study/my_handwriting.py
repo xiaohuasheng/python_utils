@@ -2,8 +2,10 @@ import tensorflow as tf
 from PIL import Image
 
 
-def imageprepare():
-    file_name = './pic/n_0.png'  # 图片路径
+def image_prepare():
+    file_name = './pic/6.png'  # 图片路径
+    # 28 * 28
+    # byte  0 - 255
     myimage = Image.open(file_name).convert('L')  # 转换成灰度图
     tv = list(myimage.getdata())  # 获取像素值
     # 转换像素范围到[0 1], 0是纯白 1是纯黑
@@ -13,7 +15,7 @@ def imageprepare():
 
 if __name__ == '__main__':
     init = tf.global_variables_initializer()
-    saver = tf.train.Saver
+    # saver = tf.train.Saver
 
     with tf.Session() as sess:
         sess.run(init)
@@ -25,8 +27,7 @@ if __name__ == '__main__':
         y = graph.get_tensor_by_name("y:0")  # 从模型中获取张量y
 
         prediction = tf.argmax(y, 1)
-        while True:
-            input("请再写")
-            result = imageprepare()
-            predint = prediction.eval(feed_dict={x: [result]}, session=sess)
-            print("我认为是%d" % predint[0])
+        # input("")
+        result = image_prepare()
+        predint = prediction.eval(feed_dict={x: [result]}, session=sess)
+        print("我认为是%d" % predint[0])

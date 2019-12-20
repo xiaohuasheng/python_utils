@@ -25,7 +25,15 @@ def type_list():
         print(sess.run(zero_t))
 
 
+def placeholder_demo():
+    # x = tf.placeholder("float", [None, 784], name='x')
+    x = tf.Variable(tf.zeros([1, 784]), name='x')
+    with tf.Session() as sess:
+        print(sess.run(x))
+
+
 if __name__ == '__main__':
-    vector_add()
+    placeholder_demo()
+    # vector_add()
     # type_list()
     pass
