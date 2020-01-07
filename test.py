@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import csv
 import hashlib
 import json
 import os
@@ -8,9 +9,9 @@ from datetime import timedelta
 
 
 def test_input():
-    print "hahaha"
+    print("hahaha")
     name = input("hello, what's your name?")
-    print name
+    print(name)
     pass
 
 
@@ -20,11 +21,11 @@ def split_str():
     str_list = a_str.split("}{")
     if len(str_list) > 1:
         refresh = json.loads(str_list[0] + "}")
-        print refresh
+        print(refresh)
         data = json.loads("{" + str_list[1])
     else:
         data = json.loads(str_list[0])
-    print data
+    print(data)
 
 
 def get_format_datetime(date_format='%Y%m%d%H%M'):
@@ -32,19 +33,19 @@ def get_format_datetime(date_format='%Y%m%d%H%M'):
 
 
 def execute_command(cmd):
-    # print cmd
+    # print(cmd)
     import os
     a_pipe = os.popen(cmd, 'r')
     a_text = a_pipe.read()
     a_sts = a_pipe.close()
     if a_sts is None: a_sts = 0
     if a_text[-1:] == '\n': a_text = a_text[:-1]
-    # print a_sts
-    # print a_text
+    # print(a_sts)
+    # print(a_text)
     if a_sts:
-        print cmd
-        print a_sts
-        print a_text
+        print(cmd)
+        print(a_sts)
+        print(a_text)
         raise Exception(a_text)
     return a_sts, a_text
 
@@ -52,7 +53,7 @@ def execute_command(cmd):
 class Project(object):
     def __init__(self, proj_path, test_branch):
         if not proj_path:
-            print "project directory can not be null"
+            print("project directory can not be null")
             exit(0)
         self.project_dir = proj_path
         self.test_branch = test_branch
@@ -104,16 +105,16 @@ class Project(object):
 
     def check(self):
         if not self.is_clean():
-            print "分支不干净，请检查"
+            print("分支不干净，请检查")
             exit(0)
 
     def generate_new_tag(self, last_tag):
         if not last_tag:
-            print "最新tag为空，请手动打tag"
+            print("最新tag为空，请手动打tag")
             exit(0)
         author = self.get_author()
         if not author:
-            print "请设置提交人"
+            print("请设置提交人")
             exit(0)
         # shejiben-7.3.4.4-201908281659-watson
         # utils-1.2.1-201908050927-watson
@@ -136,9 +137,9 @@ class Project(object):
         self.checkout(self.test_branch)
         self.merge_code(now_branch, self.test_branch)
         self.check()
-        print "merge finish..."
+        print("merge finish...")
         self.push_origin(self.test_branch)
-        print "push finish..."
+        print("push finish...")
         self.checkout(now_branch)
 
 
@@ -166,7 +167,7 @@ def show_mbps2mb(mbps):
 
 def split_java_cmd():
     cmd = "/usr/local/jdk-1.8.0_11/bin/java -server -Xms512m -Xmx1024m -Djava.apps.version=14 -XX:+UseG1GC -XX:+HeapDumpOnOutOfMemoryError -XX:G1HeapRegionSize=4m -Djava.run.dir=/data/logs/java/run -Djava.logs.dir=/data/logs/java/logs -Djava.apps.prog=t8t-wkf-ctl -Dinstance.sequence=39e58 -jar /usr/local/release/t8t-wkf-ctl/sc-14/t8t-wkf-ctl-server-14-sc.jar"
-    print cmd.split(" ")
+    print(cmd.split(" "))
 
 
 def service_map():
@@ -298,7 +299,7 @@ def service_map():
             a_map[key].append(service)
         else:
             a_map[key] = [key, service]
-    print a_map
+    print(a_map)
 
 
 def database_map():
@@ -473,7 +474,7 @@ def database_map():
                 "name": pr,
             }
 
-    print a_map
+    print(a_map)
 
 
 def md5_sum():
@@ -488,16 +489,16 @@ def md5_sum():
 def date_decrease():
     nowtime = datetime.now()
     d = timedelta(days=-365)
-    print nowtime + d
+    print(nowtime + d)
 
 
 def a_star(a, b):
-    print a, b
+    print(a, b)
     # 3 4
 
 
 def two_star(name, age):
-    print name, age
+    print(name, age)
     # hs 15
 
 
@@ -518,7 +519,7 @@ def json_change():
     a_map = {}
     for a_key in item_list:
         a_map[a_key] = {"mysql": [item_list[a_key]], "mongodb": [{"group": "", "name": ""}]}
-    print json.dumps(a_map)
+    print(json.dumps(a_map))
 
 
 def to_const():
@@ -533,13 +534,501 @@ def to_const():
         item = item.strip()
         if not item:
             continue
-        print '%s = "%s"' % (item.upper(), item)
+        print('%s = "%s"' % (item.upper(), item))
+
+
+def dict_sort():
+    insts = {"111": {"start_time": "13"}, "222": {"start_time": "14"}}
+    after_sort = sorted(insts)
+    print(after_sort)
+
+
+def dictionairy():
+    # 声明字典
+    key_value = {}
+
+    # 初始化
+    insts = {
+        "10.10.11.61:t8t-crm-qms:40034": {
+            "node": "10.10.11.61:t8t-crm-qms:40034",
+            "ip": "10.10.11.61",
+            "start_time": "2019-12-19 20:18:15",
+            "pid": 1111,
+            "module": "sc",
+            "user": "?",
+            "address": "10.10.11.61",
+            "port": 40034,
+            "name": "10.10.11.61:t8t-crm-qms:40034",
+            "eureka": "c.idc.eureka.we.com",
+            "project": "t8t-crm-qms",
+            "version": "68",
+            "env": "idc",
+            "type": 1
+        },
+        "10.10.10.30:t8t-crm-qms:40917": {
+            "node": "10.10.10.30:t8t-crm-qms:40917",
+            "ip": "10.10.10.30",
+            "start_time": "2019-12-18 18:26:44",
+            "pid": 1111,
+            "module": "sc",
+            "user": "?",
+            "address": "10.10.10.30",
+            "port": 40917,
+            "name": "10.10.10.30:t8t-crm-qms:40917",
+            "eureka": "c.idc.eureka.we.com",
+            "project": "t8t-crm-qms",
+            "version": "68",
+            "env": "idc",
+            "type": 1
+        }
+    }
+    insts = [
+        {
+            "node": "10.10.11.61:t8t-crm-qms:40034",
+            "ip": "10.10.11.61",
+            "start_time": "2019-12-19 20:18:15",
+            "pid": 1111,
+            "module": "sc",
+            "user": "?",
+            "address": "10.10.11.61",
+            "port": 40034,
+            "name": "10.10.11.61:t8t-crm-qms:40034",
+            "eureka": "c.idc.eureka.we.com",
+            "project": "t8t-crm-qms",
+            "version": "68",
+            "env": "idc",
+            "type": 1
+        },
+        {
+            "node": "10.10.10.30:t8t-crm-qms:40917",
+            "ip": "10.10.10.30",
+            "start_time": "2019-12-18 18:26:44",
+            "pid": 1111,
+            "module": "sc",
+            "user": "?",
+            "address": "10.10.10.30",
+            "port": 40917,
+            "name": "10.10.10.30:t8t-crm-qms:40917",
+            "eureka": "c.idc.eureka.we.com",
+            "project": "t8t-crm-qms",
+            "version": "68",
+            "env": "idc",
+            "type": 1
+        }
+    ]
+
+    print("按值(value)排序:")
+    # print(dict(sorted(insts.items(), key=lambda kv: (kv[1]['start_time'], kv[0]), reverse=True)))
+    # print(dict(sorted(insts.items(), key=lambda kv: (kv[1]['start_time'], kv[0]), reverse=False)))
+
+    insts = {
+        "sc": {
+            "10.10.11.50:t8t-tbt-dmp:44444": {
+                "node": "10.10.11.50:t8t-tbt-dmp:44444",
+                "ip": "10.10.11.50",
+                "start_time": "2019-12-20 18:33:26",
+                "pid": 1111,
+                "module": "sc",
+                "user": "?",
+                "address": "10.10.11.50",
+                "port": 44444,
+                "name": "10.10.11.50:t8t-tbt-dmp:44444",
+                "eureka": "c.idc.eureka.we.com",
+                "project": "t8t-tbt-dmp",
+                "version": "73",
+                "env": "idc",
+                "type": 1
+            },
+            "10.10.10.114:t8t-tbt-dmp:44444": {
+                "node": "10.10.10.114:t8t-tbt-dmp:44444",
+                "ip": "10.10.10.114",
+                "start_time": "2019-12-20 18:27:27",
+                "pid": 1111,
+                "module": "sc",
+                "user": "?",
+                "address": "10.10.10.114",
+                "port": 44444,
+                "name": "10.10.10.114:t8t-tbt-dmp:44444",
+                "eureka": "c.idc.eureka.we.com",
+                "project": "t8t-tbt-dmp",
+                "version": "73",
+                "env": "idc",
+                "type": 1
+            },
+            "10.10.10.99:t8t-tbt-dmp:44444": {
+                "node": "10.10.10.99:t8t-tbt-dmp:44444",
+                "ip": "10.10.10.99",
+                "start_time": "2019-12-20 18:27:26",
+                "pid": 1111,
+                "module": "sc",
+                "user": "?",
+                "address": "10.10.10.99",
+                "port": 44444,
+                "name": "10.10.10.99:t8t-tbt-dmp:44444",
+                "eureka": "c.idc.eureka.we.com",
+                "project": "t8t-tbt-dmp",
+                "version": "73",
+                "env": "idc",
+                "type": 1
+            },
+            "10.10.11.65:t8t-tbt-dmp:44444": {
+                "node": "10.10.11.65:t8t-tbt-dmp:44444",
+                "ip": "10.10.11.65",
+                "start_time": "2019-12-20 18:33:29",
+                "pid": 1111,
+                "module": "sc",
+                "user": "?",
+                "address": "10.10.11.65",
+                "port": 44444,
+                "name": "10.10.11.65:t8t-tbt-dmp:44444",
+                "eureka": "c.idc.eureka.we.com",
+                "project": "t8t-tbt-dmp",
+                "version": "73",
+                "env": "idc",
+                "type": 1
+            }
+        }
+    }
+
+    insts = insts['sc']
+    instance_list = [insts[item] for item in insts]
+    print(instance_list)
+
+    # print(sorted(insts, key=lambda i: i['start_time']))
+    instance_list = sorted(instance_list, key=lambda i: i['start_time'], reverse=True)
+    ip_list = {item['ip']: item['ip'] for item in instance_list}
+    print(ip_list)
+    # for item in instance_list:
+    #     print(item['ip'])
+
+
+def save_to_csv(filename, key_list, data_list):
+    with open(filename, 'w+') as f:
+        writer = csv.writer(f)
+        if key_list:
+            writer.writerow(key_list)
+        writer.writerows(data_list)
+
+
+def field_type():
+    image_map = {
+        "added_by": {
+            "type": "long"
+        },
+        "author": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "ca_area": {
+            "type": "long"
+        },
+        "ca_area_tag": {
+            "type": "string"
+        },
+        "ca_comment": {
+            "type": "string",
+            "analyzer": "standard",
+            "fields": {
+                "raw": {
+                    "type": "string",
+                    "analyzer": "ik"
+                }
+            }
+        },
+        "ca_commentable": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "ca_dir": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "ca_global_rank": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "ca_hits": {
+            "type": "long"
+        },
+        "ca_house_tag": {
+            "type": "string"
+        },
+        "ca_id": {
+            "type": "long"
+        },
+        "ca_id_uppercat": {
+            "type": "long"
+        },
+        "ca_image_order": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "ca_is_show": {
+            "type": "long"
+        },
+        "ca_ispass": {
+            "type": "long"
+        },
+        "ca_kind": {
+            "type": "long"
+        },
+        "ca_name": {
+            "type": "string",
+            "analyzer": "standard",
+            "fields": {
+                "raw": {
+                    "type": "string",
+                    "analyzer": "ik"
+                }
+            }
+        },
+        "ca_permalink": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "ca_price": {
+            "type": "long"
+        },
+        "ca_puttime": {
+            "type": "long"
+        },
+        "ca_rank": {
+            "type": "long"
+        },
+        "ca_representative_picture_id": {
+            "type": "long"
+        },
+        "ca_site_id": {
+            "type": "long"
+        },
+        "ca_space_tag": {
+            "type": "string"
+        },
+        "ca_status": {
+            "type": "string"
+        },
+        "ca_statuse": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "ca_style_tag": {
+            "type": "string"
+        },
+        "ca_styleid": {
+            "type": "long"
+        },
+        "ca_subkind": {
+            "type": "long"
+        },
+        "ca_subsubkind": {
+            "type": "long"
+        },
+        "ca_theid": {
+            "type": "long"
+        },
+        "ca_uid": {
+            "type": "long"
+        },
+        "ca_uppercats": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "ca_visible": {
+            "type": "string"
+        },
+        "ca_visiblee": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "category": {
+            "type": "long"
+        },
+        "category_id": {
+            "type": "long"
+        },
+        "city": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "clientid": {
+            "type": "long"
+        },
+        "coi": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "comment": {
+            "type": "string",
+            "analyzer": "standard",
+            "fields": {
+                "raw": {
+                    "type": "string",
+                    "analyzer": "ik"
+                }
+            }
+        },
+        "comment_num": {
+            "type": "long"
+        },
+        "date_available": {
+            "type": "long"
+        },
+        "date_creation": {
+            "type": "long"
+        },
+        "date_metadata_update": {
+            "type": "long"
+        },
+        "day_downloads": {
+            "type": "long"
+        },
+        "edit_time": {
+            "type": "long"
+        },
+        "file": {
+            "type": "string",
+            "analyzer": "standard",
+            "fields": {
+                "raw": {
+                    "type": "string",
+                    "analyzer": "ik"
+                }
+            }
+        },
+        "filesize": {
+            "type": "long"
+        },
+        "height": {
+            "type": "long"
+        },
+        "hit": {
+            "type": "long"
+        },
+        "id": {
+            "type": "long"
+        },
+        "image_id": {
+            "type": "long"
+        },
+        "kind": {
+            "type": "long"
+        },
+        "kindtype": {
+            "type": "long"
+        },
+        "last_download": {
+            "type": "long"
+        },
+        "level": {
+            "type": "long"
+        },
+        "link": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "max_price": {
+            "type": "long"
+        },
+        "md5sum": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "min_price": {
+            "type": "long"
+        },
+        "name": {
+            "type": "string",
+            "analyzer": "standard",
+            "fields": {
+                "raw": {
+                    "type": "string",
+                    "analyzer": "ik"
+                }
+            }
+        },
+        "nb_image": {
+            "type": "long"
+        },
+        "nb_time": {
+            "type": "long"
+        },
+        "passtime": {
+            "type": "long"
+        },
+        "path": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "question_num": {
+            "type": "long"
+        },
+        "rank": {
+            "type": "long"
+        },
+        "rating_score": {
+            "type": "float"
+        },
+        "rotation": {
+            "type": "long"
+        },
+        "space_tag": {
+            "type": "string"
+        },
+        "storage_category_id": {
+            "type": "long"
+        },
+        "style": {
+            "type": "long"
+        },
+        "sub_space_tag": {
+            "type": "string"
+        },
+        "subkind": {
+            "type": "long"
+        },
+        "subsubkind": {
+            "type": "long"
+        },
+        "tags": {
+            "type": "string",
+            "index": "not_analyzed"
+        },
+        "total_downloads": {
+            "type": "long"
+        },
+        "uploadtype": {
+            "type": "long"
+        },
+        "width": {
+            "type": "long"
+        },
+        "xiaoguotu_aid": {
+            "type": "long"
+        }
+    }
+
+    key_list = ['field_name', 'type']
+    data_list = []
+    for field in image_map:
+        field_type = image_map[field]['type']
+        if field_type == 'long':
+            table_type = "int"
+        elif field_type == 'string':
+            table_type = 'varchar'
+        data_list.append([field, table_type])
+        # TODO 写 csv表格
+
+    filename = 'map.csv'
+    save_to_csv(filename, key_list, data_list)
 
 
 if __name__ == '__main__':
-    to_const()
+    field_type()
+    # dictionairy()
+    # dict_sort()
+    # to_const()
     # json_change()
-    # print p01(9)
+    # print(p01(9))
     # a_str = "php_publish"
     # print("".join(map(lambda x: x.capitalize(), a_str.split("_"))))
     pass
@@ -556,9 +1045,9 @@ if __name__ == '__main__':
     # service_map()
     # split_java_cmd()
     # a_map = {'sc': ['98', '106', '105', '101'], 'task': ['114', '125'], 'server': ['130', '', '129']}
-    # print version_sort(a_map)
+    # print(version_sort(a_map))
     # split_str()
     # test_input()
 
     # 3.5MB/s
-    # print 98 / mbps2mb(29.13)
+    # print(98 / mbps2mb(29.13))

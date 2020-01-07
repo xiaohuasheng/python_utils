@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-import json
-
 import requests
+import json
+import readline
 
 
 def execute_cmd(cmd):
@@ -11,7 +11,7 @@ def execute_cmd(cmd):
         'uid': 'wKgB3V3D/tAq/CMYBCHFAg==',
         'env': 'uat',
         'csrftoken': 'vKHSZOYTQRwWIncFXV38LOLgQ7D4xwoK',
-        'sessionid_boss': '7ib1cci38c0ajrumfo4hkv3fvrcq5bec',
+        'sessionid_boss': 'vqff853kzhenljzuajh7uk3f9vlyohwg',
     }
 
     headers = {
