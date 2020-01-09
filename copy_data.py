@@ -10,30 +10,42 @@ def get_data(index, start=0, size=100):
     }
     data = '''
     {
-  "from": %d,
-  "size": %d,
-  "query": {
-    "bool": {
-      "must": [
-        {
-          "terms": {
-            "uid": [
-              6106,
-              6107,
-              4655,
-              6155,
-              558746
-            ]
-          }
-        },
-        {
-            "term":{
-                "ispass":1
-            }
-        }
-      ]
+  "from" : %d,
+  "size" : %d,
+  "query" : {
+    "terms" : {
+      "category" : [
+        15377426,
+        15377425,
+        15377424,
+        15377423,
+        153226,
+        153223,
+        153220,
+        153215,
+        153234,
+        153233,
+        153232,
+        153230,
+        153763,
+        153227,
+        153213,
+        150733,
+        153225,
+        153224,
+        153218,
+        153210
+      ],
+      "boost" : 1.0
     }
-  }
+  },
+  "sort" : [
+    {
+      "rank" : {
+        "order" : "desc"
+      }
+    }
+  ]
 }
     ''' % (start, size)
     # data = '{"from":%d,"size":%d,"query":{"filtered":{"filter":{"bool":{"must":[{"range":{"case_num":{"from":0,"to":null,"include_lower":true,"include_upper":false}}}],"_cache":true}}}}}' % (
@@ -67,7 +79,9 @@ if __name__ == '__main__':
     page = 1
     size = 100
     index_type = "categories"
+    index_type = "imagesinfocat"
     target_index = "t8t_sjb_category"
+    target_index = "t8t_sjb_category_image"
     while True:
         start = (page - 1) * size
         data_list = get_data(index_type, start, size)
