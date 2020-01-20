@@ -124,24 +124,33 @@ class Project(object):
 
 class BossProject(Project):
     def __init__(self):
-        super(BossProject, self).__init__(r'E:\python_workspace\boss-cmdb')
+        super(BossProject, self).__init__(r'E:\php_workspace\oa')
 
     def get_last_tag(self):
         execute_command("git fetch --tag")
         # 有时需要先grep
         return execute_command("git tag | grep boss | tail -1")
 
+    def push_to_test(self):
+        branch = 'test'
+        now_branch = self.this_branch()
+        self.check()
+        self.checkout(branch)
+        self.pull_origin(branch)
+        self.merge_code(now_branch, branch)
+        print "merge finish..."
+        self.push_origin(branch)
+        print "publish finish..."
+        self.checkout(now_branch)
+        pass
+
 
 if __name__ == '__main__':
-    argv = sys.argv
-    tag_desc = argv[1]
-    if not tag_desc:
-        print "请输入tag描述"
     boss_obj = BossProject()
     # status, last_tag = boss_obj.get_last_tag()
     # new_tag = boss_obj.generate_new_tag(last_tag)
     # print new_tag
-    boss_obj.push_to_master(tag_desc)
+    boss_obj.push_to_test()
     print "********************************"
     print "***********success**************"
     print "********************************"
