@@ -13,12 +13,13 @@ def to_send():
 
 class WorkWeChatRobot(object):
     KEY_TEST = 'c2c0a037-2aa5-42be-ac9b-06e79ada8e1b'
+    KEY_SHEJIBEN = '259cbbab-dea7-4422-9a3d-9eb993383fd4'
     KEY_RENT_SUBSIDY = '406a589e-1c65-401c-89c4-e38e4622e57f'
 
     SEND_API = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=KEY'
 
     def send_message(self, message):
-        url = self.SEND_API.replace("KEY", self.KEY_RENT_SUBSIDY)
+        url = self.SEND_API.replace("KEY", self.KEY_TEST)
         headers = {
             'Content-Type': 'application/json',
         }

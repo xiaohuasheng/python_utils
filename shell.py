@@ -11,7 +11,7 @@ def execute_cmd(cmd):
         'uid': 'wKgB3V3D/tAq/CMYBCHFAg==',
         'env': 'uat',
         'csrftoken': 'vKHSZOYTQRwWIncFXV38LOLgQ7D4xwoK',
-        'sessionid_boss': 'vqff853kzhenljzuajh7uk3f9vlyohwg',
+        'sessionid_boss': 'kefzniadialp8lyeboq1gdpykioew4q4',
     }
 
     headers = {
